@@ -10,10 +10,17 @@ const {check, validationResult} = expressValidator;
 const router = express.Router();
 
 //GET /:user
-router.post('/restricted', authenticateUser, (req, res) => {
-    console.log("Success");
-    return res.end();
+router.get('/:user', authenticateUser, async (req, res) => {
+    const user = await User.findOne({"username" : req.params.user});
+    return res.status(200).json(user);
 })
+
+//POST /:user/:todoID
+
+//PUT /:user/:todoID
+
+//DELETE /:user/:todoID
+
 
 //POST /register
 //Create a new user
@@ -24,7 +31,7 @@ router.post('/register', [
     check('password')
       .exists({ checkNull: true, checkFalsy: true })
       .withMessage('Please provide a value for "password"'),
-  ], async (req, res) => {
+  ], async (req, res, next) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -34,8 +41,10 @@ router.post('/register', [
     const existingUser = await User.findOne({"username": req.body.username}).exec();
 
     if (existingUser) {
-        console.log("User already exists")
-        return res.status(400).json({errors: "Unsuccessful"});
+        const err = new Error("User already exists");
+        err.status = 400;
+        console.log({err});
+        return next(err)
     }
 
     let user = req.body;
@@ -46,6 +55,7 @@ router.post('/register', [
     })
 
 })
+
 
 
 
