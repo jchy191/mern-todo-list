@@ -25,6 +25,9 @@ router.get('/:user', authenticateUser, async (req, res) => {
 //POST /register
 //Create a new user
 router.post('/register', [
+    check('name')
+      .exists({ checkNull: true, checkFalsy: true })
+      .withMessage('Please provide a value for "name"'),
     check('username')
       .exists({ checkNull: true, checkFalsy: true })
       .withMessage('Please provide a value for "username"'),
