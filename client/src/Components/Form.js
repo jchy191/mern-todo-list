@@ -11,6 +11,7 @@ const Form = (props) => {
     } = props;
     
     const handleSubmit = (e) => {
+        e.preventDefault();
         submit();
     }
 

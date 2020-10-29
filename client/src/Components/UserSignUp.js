@@ -2,7 +2,7 @@ import React, {useReducer, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import Form from './Form'
 
-const UserSignUp = () => {
+const UserSignUp = ({context}) => {
 
     const [input, setInput] = useReducer(
         (state, newState) => ({...state, ...newState}),
@@ -21,8 +21,16 @@ const UserSignUp = () => {
         setInput({[key]: value});
     }
 
-    const submit = () => {
+    const submit = (e) => {
 
+        context.data.createUser(input)
+        .then((err, data) => {
+            setErrors(err.message);
+        })
+        .catch(err => {
+            console.log(err);
+            
+        });
     }
 
     const cancel = () => {

@@ -7,21 +7,28 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import {Provider} from './Context';
+import withContext from './Context';
 
 const App = () => {
+
+
   return (
-    <BrowserRouter>
-      <div className="App">
-      
-        <Header />
+    <Provider>
+      <BrowserRouter>
+        <div className="App">
+        
+          <Header />
 
-        <Switch>
-          <Route exact path="/" />
-          <Route exact path="/signup" component={UserSignUp}/>
-        </Switch>
+          <Switch>
+            <Route exact path="/" />
+            <Route exact path="/signup" component={withContext(UserSignUp)}/>
+          </Switch>
 
-      </div>
-    </BrowserRouter>
+        </div>
+      </BrowserRouter>
+    </Provider>
+    
     
   );
 }

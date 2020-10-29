@@ -2,7 +2,7 @@ import config from './config.js';
 
 const Data = (() => {
 
-    const api = (path, method='GET', body=null, requiresAuth=false, credentials=null) {
+    const api = (path, method='GET', body=null, requiresAuth=false, credentials=null) => {
         const url = config.apiBaseUrl + path;
         const options = {
             method,
@@ -15,7 +15,7 @@ const Data = (() => {
         }
         if (requiresAuth) {
             const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
-            options.headers['Authorization'] = `Basic ${encodedCredentails}`;
+            options.headers['Authorization'] = `Basic ${encodedCredentials}`;
         }
         return fetch(url, options);
     }
@@ -31,6 +31,7 @@ const Data = (() => {
             throw new Error();
         }
     }
+    return {createUser}
 
 
 })();
