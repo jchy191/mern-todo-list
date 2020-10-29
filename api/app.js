@@ -16,7 +16,7 @@ const db = mongoose.connection;
 db.on("error", err => console.error ("Connection error:", err));
 db.once("open", () => console.log("Database connection successful"));
 
-app.use('/', routes);
+app.use('/api', routes);
 
 
 //Catches 404 Errors
