@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 const Header = (props) => {
 
     return (
-        <Navbar bg="dark" variant="dark" expand="md">
+        <Navbar bg="dark" variant="dark" expand="sm">
             <Container fluid className="mx-4">
                 <Navbar.Brand href="#home">To-Do App</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

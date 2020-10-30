@@ -3,7 +3,7 @@ import {useHistory} from 'react-router-dom';
 import FormTemplate from './FormTemplate';
 import {Form, Row, Col} from 'react-bootstrap';
 
-const UserSignUp = ({context}) => {
+const UserSignIn = ({context}) => {
 
     const [input, setInput] = useReducer(
         (state, newState) => ({...state, ...newState}),
@@ -24,18 +24,7 @@ const UserSignUp = ({context}) => {
 
     const submit = (e) => {
 
-        context.data.createUser(input)
-        .then((validationErrors) => {
-            if (validationErrors.message){
-                setErrors(validationErrors.message);
-            } else {
-                history.push('/')
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            
-        });
+  
     }
 
     const cancel = () => {
@@ -46,23 +35,14 @@ const UserSignUp = ({context}) => {
     return (
         <Row>
             <Col xs={7} md={5} xl={4} className="mx-auto"> 
-                <h1 className="display-1 my-5">Register</h1>
+                <h1 className="display-1 my-5">Sign In</h1>
                 <FormTemplate 
                     cancel={cancel}
                     errors={errors}
                     submit={submit}
                     submitButtonText="Sign Up"
                     elements={() => (
-                        <React.Fragment>                                            
-                            <Form.Group controlId="formName">
-                                <Form.Label className="lead">Name</Form.Label>
-                                <Form.Control 
-                                    type="name" 
-                                    name="name" 
-                                    placeholder="Enter name" 
-                                    value={input.name} 
-                                    onChange={change} />                            
-                            </Form.Group>
+                        <React.Fragment>
                             <Form.Group controlId="formUsername">
                                 <Form.Label className="lead">Username</Form.Label>
                                 <Form.Control 
@@ -91,4 +71,4 @@ const UserSignUp = ({context}) => {
 
 }
 
-export default UserSignUp;
+export default UserSignIn;

@@ -2,6 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
 import UserSignUp from './Components/UserSignUp';
+import UserSignIn from './Components/UserSignIn';
 import Header from './Components/Header'
 import {Container} from 'react-bootstrap'
 import {
@@ -25,6 +26,7 @@ const App = () => {
             <Switch>
               <Route exact path="/" />
               <Route exact path="/signup" component={withContext(UserSignUp)}/>
+              <Route exact path="/signin" component={withContext(UserSignIn)}/>
             </Switch>
           </Container>      
         </div>
