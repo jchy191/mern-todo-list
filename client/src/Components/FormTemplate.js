@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, ListGroup } from 'react-bootstrap';
 
 const FormTemplate = (props) => {
 
@@ -44,10 +44,10 @@ const ErrorsDisplay = ({errors}) => {
     if (errors.length) {
         errorsDisplay = (
             <div>
-                <h2>Validation error:</h2>
-                <ul>
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>
+                <h2>Validation error(s):</h2>
+                <ListGroup variant="flush" className="mt-3 mb-5">
+                    {errors.map((error, i) => <ListGroup.Item key={i}>{error}</ListGroup.Item>)}
+                </ListGroup>
             </div>
         )
     }
