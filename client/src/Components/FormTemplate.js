@@ -1,6 +1,7 @@
 import React from 'react';
+import { Button, Form } from 'react-bootstrap';
 
-const Form = (props) => {
+const FormTemplate = (props) => {
 
     const {
         cancel,
@@ -23,21 +24,22 @@ const Form = (props) => {
 
         <div>
             <ErrorsDisplay errors={errors}/>
-            <form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
                 {elements()}
                 <div>
-                    <button type="submit">{submitButtonText}</button>
-                    <button onClick={handleCancel}>Cancel</button>
+                    <Button variant="outline-info" type="submit" className="mr-3">{submitButtonText}</Button>
+                    <Button variant="outline-danger" onClick={handleCancel} className="ml-3">Cancel</Button>
                 </div>
-            </form>
+            </Form>
         </div>
     )
 }
 
-export default Form;
+export default FormTemplate;
 
 
 const ErrorsDisplay = ({errors}) => {
+    console.log({errors});
     let errorsDisplay = null;
     if (errors.length) {
         errorsDisplay = (

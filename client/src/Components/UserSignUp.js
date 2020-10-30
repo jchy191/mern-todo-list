@@ -1,6 +1,7 @@
 import React, {useReducer, useState} from 'react';
 import {useHistory} from 'react-router-dom';
-import Form from './Form'
+import FormTemplate from './FormTemplate';
+import {Form, Row, Col} from 'react-bootstrap';
 
 const UserSignUp = ({context}) => {
 
@@ -24,8 +25,12 @@ const UserSignUp = ({context}) => {
     const submit = (e) => {
 
         context.data.createUser(input)
-        .then((err, data) => {
-            setErrors(err.message);
+        .then((validationErrors) => {
+            if (validationErrors.message){
+                setErrors(validationErrors.message);
+            } else {
+                history.push('/')
+            }
         })
         .catch(err => {
             console.log(err);
@@ -39,40 +44,49 @@ const UserSignUp = ({context}) => {
 
     
     return (
-        <div>
-           <h1>Sign Up</h1>
-            <Form 
-                cancel={cancel}
-                errors={errors}
-                submit={submit}
-                submitButtonText="Sign Up"
-                elements={() => (
-                    <React.Fragment>
-                        <input 
-                            id="name" 
-                            name="name" 
-                            type="text"
-                            value={input.name} 
-                            onChange={change} 
-                            placeholder="Name" />
-                        <input 
-                            id="username" 
-                            name="username" 
-                            type="text"
-                            value={input.username} 
-                            onChange={change} 
-                            placeholder="User Name" />
-                        <input 
-                            id="password" 
-                            name="password"
-                            type="password"
-                            value={input.password} 
-                            onChange={change} 
-                            placeholder="Password" />  
-                    </React.Fragment>
-                )}
-            /> 
-        </div>
+        <Row>
+            <Col xs={7} md={5} xl={4} className="mx-auto"> 
+                <h1 className="display-1 my-5">Register</h1>
+                <FormTemplate 
+                    cancel={cancel}
+                    errors={errors}
+                    submit={submit}
+                    submitButtonText="Sign Up"
+                    elements={() => (
+                        <React.Fragment>                                            
+                                <Form.Group controlId="formName">
+                                    <Form.Label className="lead">Name</Form.Label>
+                                    <Form.Control 
+                                        type="name" 
+                                        name="name" 
+                                        placeholder="Enter name" 
+                                        value={input.name} 
+                                        onChange={change} />                            
+                                </Form.Group>
+                                <Form.Group controlId="formUsername">
+                                    <Form.Label className="lead">Username</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        name="username" 
+                                        placeholder="Enter username" 
+                                        value={input.username} 
+                                        onChange={change} />                            
+                                </Form.Group>
+                                <Form.Group controlId="formPassword">
+                                    <Form.Label className="lead">Password</Form.Label>
+                                    <Form.Control 
+                                        type="password" 
+                                        name="password" 
+                                        placeholder="Enter password" 
+                                        value={input.password} 
+                                        onChange={change} />                            
+                                </Form.Group>
+                        </React.Fragment>
+                    )}
+                />  
+            </Col>
+        </Row>
+           
     )
 
 }

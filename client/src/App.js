@@ -1,7 +1,9 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
 import UserSignUp from './Components/UserSignUp';
 import Header from './Components/Header'
+import {Container} from 'react-bootstrap'
 import {
   BrowserRouter,
   Route,
@@ -19,12 +21,12 @@ const App = () => {
         <div className="App">
         
           <Header />
-
-          <Switch>
-            <Route exact path="/" />
-            <Route exact path="/signup" component={withContext(UserSignUp)}/>
-          </Switch>
-
+          <Container fluid className="text-center">
+            <Switch>
+              <Route exact path="/" />
+              <Route exact path="/signup" component={withContext(UserSignUp)}/>
+            </Switch>
+          </Container>      
         </div>
       </BrowserRouter>
     </Provider>
