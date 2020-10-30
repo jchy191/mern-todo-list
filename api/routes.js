@@ -39,12 +39,12 @@ router.post('/register', [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const errorMessages = errors.array().map(error => error.msg);
-        // return res.status(400).json({errors: errorMessages})
-        const err = new Error();
-        err.status = 400;
-        err.message = errorMessages;
-        console.log({err});
-        return next(err)
+        return res.status(400).json(
+          {
+            error:
+              {message: errorMessages}
+          }
+        );
     }
     const existingUser = await User.findOne({"username": req.body.username}).exec();
 
