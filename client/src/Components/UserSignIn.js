@@ -1,9 +1,10 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer, useState, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
+import {Context} from '../Context.js'
 import FormTemplate from './FormTemplate';
 import {Form, Row, Col} from 'react-bootstrap';
 
-const UserSignIn = ({context}) => {
+const UserSignIn = () => {
 
     const [input, setInput] = useReducer(
         (state, newState) => ({...state, ...newState}),
@@ -14,6 +15,7 @@ const UserSignIn = ({context}) => {
         });
     const [errors, setErrors] = useState([]);
     const history = useHistory();
+    const context = useContext(Context);
 
 
     const change = (e) => {
@@ -22,13 +24,24 @@ const UserSignIn = ({context}) => {
         setInput({[key]: value});
     }
 
-    const submit = (e) => {
-
-  
+    const submit = async (e) => {
+        const {username, password} = input;
+        const credentials = {username, password};
+        context.actions.signIn(credentials)
+            .then(user => {
+                if (user === null) {
+                    setErrors(['Sign-in was unsuccessful'])
+                } else {
+                    history.push('/authenticated');
+                }
+            })
+            .catch(err => {
+                history.push('/error');
+            });
     }
 
     const cancel = () => {
-        history.push('/')
+        history.push('/');
     }
 
     
@@ -40,7 +53,7 @@ const UserSignIn = ({context}) => {
                     cancel={cancel}
                     errors={errors}
                     submit={submit}
-                    submitButtonText="Sign Up"
+                    submitButtonText="Sign In"
                     elements={() => (
                         <React.Fragment>
                             <Form.Group controlId="formUsername">
@@ -49,9 +62,13 @@ const UserSignIn = ({context}) => {
                                     type="text" 
                                     name="username" 
                                     placeholder="Enter username" 
-                                    value={input.username} 
-                                    onChange={change} />                            
-                            </Form.Group>
+                                    value={input.username}                             
+                                    onChange={change}
+                                    isInvalid={!input.username.length} />       
+                                <Form.Control.Feedback type="invalid">
+                                    Please provide your username.
+                                </Form.Control.Feedback>                       
+                            </Form.Group>                             
                             <Form.Group controlId="formPassword">
                                 <Form.Label className="lead">Password</Form.Label>
                                 <Form.Control 
@@ -59,7 +76,10 @@ const UserSignIn = ({context}) => {
                                     name="password" 
                                     placeholder="Enter password" 
                                     value={input.password} 
-                                    onChange={change} />                            
+                                    onChange={change} /> 
+                                <Form.Control.Feedback type="invalid">
+                                    Please provide your password.
+                                </Form.Control.Feedback>                             
                             </Form.Group>
                         </React.Fragment>
                     )}

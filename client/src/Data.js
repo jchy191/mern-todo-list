@@ -20,18 +20,31 @@ const Data = (() => {
         return fetch(url, options);
     }
 
-    const createUser = async (user) => {
-        const response = await api('/register', 'POST', user);
+    const createUser = async (newUser) => {
+        const response = await api('/register', 'POST', newUser);
         if (response.status === 201) {
             return [];
         }
         else if (response.status === 400) {
-            return response.json().then(data => data.error)
+            return response.json();
         } else {
             throw new Error();
         }
     }
-    return {createUser}
+
+    const getUser = async (credentials) => {
+        const response = await api(`/user/${credentials.username}`, 'GET', null, true, credentials);
+        if (response.status === 200) {
+            return response.json().then(data => data);
+        }
+        else if (response.status === 401) {
+            return null;
+        } else {
+            throw new Error();
+        }
+    }
+
+    return {createUser, getUser}
 
 
 })();

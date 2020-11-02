@@ -1,9 +1,10 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer, useState, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
+import {Context} from '../Context.js'
 import FormTemplate from './FormTemplate';
 import {Form, Row, Col} from 'react-bootstrap';
 
-const UserSignUp = ({context}) => {
+const UserSignUp = () => {
 
     const [input, setInput] = useReducer(
         (state, newState) => ({...state, ...newState}),
@@ -14,6 +15,7 @@ const UserSignUp = ({context}) => {
         });
     const [errors, setErrors] = useState([]);
     const history = useHistory();
+    const context = useContext(Context);
 
 
     const change = (e) => {
@@ -23,11 +25,11 @@ const UserSignUp = ({context}) => {
     }
 
     const submit = (e) => {
-
+        
         context.data.createUser(input)
         .then((validationErrors) => {
             if (validationErrors.message){
-                setErrors(validationErrors.message);
+                setErrors([validationErrors.message]);
             } else {
                 history.push('/')
             }
@@ -57,29 +59,42 @@ const UserSignUp = ({context}) => {
                             <Form.Group controlId="formName">
                                 <Form.Label className="lead">Name</Form.Label>
                                 <Form.Control 
+                                    required
                                     type="name" 
                                     name="name" 
                                     placeholder="Enter name" 
                                     value={input.name} 
-                                    onChange={change} />                            
+                                    onChange={change}
+                                    />  
+                                <Form.Control.Feedback type="invalid">
+                                    Please provide your name.
+                                </Form.Control.Feedback>                                
                             </Form.Group>
                             <Form.Group controlId="formUsername">
                                 <Form.Label className="lead">Username</Form.Label>
                                 <Form.Control 
+                                    required
                                     type="text" 
                                     name="username" 
                                     placeholder="Enter username" 
                                     value={input.username} 
-                                    onChange={change} />                            
+                                    onChange={change} />  
+                                <Form.Control.Feedback type="invalid">
+                                    Please provide your desired username.
+                                </Form.Control.Feedback>                          
                             </Form.Group>
                             <Form.Group controlId="formPassword">
                                 <Form.Label className="lead">Password</Form.Label>
                                 <Form.Control 
+                                    required
                                     type="password" 
                                     name="password" 
                                     placeholder="Enter password" 
                                     value={input.password} 
-                                    onChange={change} />                            
+                                    onChange={change} />   
+                                <Form.Control.Feedback type="invalid">
+                                    Please provide a password.
+                                </Form.Control.Feedback>                               
                             </Form.Group>
                         </React.Fragment>
                     )}

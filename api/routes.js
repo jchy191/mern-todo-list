@@ -10,9 +10,12 @@ const {check, validationResult} = expressValidator;
 const router = express.Router();
 
 //GET /:user
-router.get('/:user', authenticateUser, async (req, res) => {
-    const user = await User.findOne({"username" : req.params.user});
-    return res.status(200).json(user);
+router.get('/user/:username', authenticateUser, async (req, res) => {
+    const user = await User.findOne({"username" : req.params.username});
+    return res.status(200).json({
+      name: user.name,
+      username: user.username,
+    });
 })
 
 //POST /:user/:todoID

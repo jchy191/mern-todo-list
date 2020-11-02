@@ -5,18 +5,21 @@ const Context = React.createContext();
 
 const Provider = (props) => {
 
-  
+    const [authUser, setAuthUser] = useState(null)
 
     const signIn = async (credentials) => { 
-        const user = await this.data.getUser(credentials)
+        const user = await Data.getUser(credentials)
         if (user !== null) {
-
-        }
+            setAuthUser(user)
+            return user;
+        } 
+        return null;
     }
 
 
     const value = {
         data: Data,
+        authUser,
         actions: {
             signIn
         }
