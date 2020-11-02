@@ -16,12 +16,17 @@ const Provider = (props) => {
         return null;
     }
 
+    const signOut = () => {
+        setAuthUser(null);
+    }
+
 
     const value = {
         data: Data,
         authUser,
         actions: {
-            signIn
+            signIn,
+            signOut
         }
     }
 

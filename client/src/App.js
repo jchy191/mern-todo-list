@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
 import UserSignUp from './Components/UserSignUp';
 import UserSignIn from './Components/UserSignIn';
+import UserSignOut from './Components/UserSignOut';
 import Authenticated from './Components/Authenticated';
 import Error from './Components/Error';
 import Home from './Components/Home';
@@ -29,6 +30,7 @@ const App = () => {
               <Route exact path="/" component={Home}/>
               <Route exact path="/signup" component={UserSignUp}/>
               <Route exact path="/signin" component={UserSignIn}/>
+              <Route exact path="/signout" component={UserSignOut}/>
               <Route exact path="/authenticated" component={Authenticated}/>
               <Route exact path="/error" component={Error}/>
             </Switch>
