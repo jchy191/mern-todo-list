@@ -20,7 +20,6 @@ const Provider = (props) => {
         setAuthUser(null);
     }
 
-
     const value = {
         data: Data,
         authUser,
