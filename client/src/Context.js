@@ -1,33 +1,34 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import Data from './Data';
 
 const Context = React.createContext();
 
-export class Provider extends Component {
+const Provider = (props) => {
 
-    constructor() {
-        super();
-        this.data = Data;
-    }
+  
 
-    render() {
-        const value = {
-            data: this.data
+    const signIn = async (credentials) => { 
+        const user = await this.data.getUser(credentials)
+        if (user !== null) {
+
         }
-        return(
-            <Context.Provider value={value}>
-                {this.props.children}
-            </Context.Provider>
-        )
     }
+
+
+    const value = {
+        data: Data,
+        actions: {
+            signIn
+        }
+    }
+
+    return(
+        <Context.Provider value={value}>
+            {props.children}
+        </Context.Provider>
+    )
+    
 }
 
-export default function withContext(Component) {
-    return function ContextComponent(props) {
-        return(
-            <Context.Consumer>
-                {context => <Component {...props} context={context}/>}
-            </Context.Consumer>
-        )
-    }
-}
+export {Context, Provider};
+

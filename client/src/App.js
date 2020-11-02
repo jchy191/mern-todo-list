@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
 import UserSignUp from './Components/UserSignUp';
 import UserSignIn from './Components/UserSignIn';
+import Home from './Components/Home';
 import Header from './Components/Header'
 import {Container} from 'react-bootstrap'
 import {
@@ -11,7 +12,6 @@ import {
   Switch
 } from 'react-router-dom';
 import {Provider} from './Context';
-import withContext from './Context';
 
 const App = () => {
 
@@ -24,9 +24,9 @@ const App = () => {
           <Header />
           <Container fluid className="text-center">
             <Switch>
-              <Route exact path="/" />
-              <Route exact path="/signup" component={withContext(UserSignUp)}/>
-              <Route exact path="/signin" component={withContext(UserSignIn)}/>
+              <Route exact path="/" component={Home}/>
+              <Route exact path="/signup" component={UserSignUp}/>
+              <Route exact path="/signin" component={UserSignIn}/>
             </Switch>
           </Container>      
         </div>
