@@ -32,7 +32,7 @@ const UserSignIn = () => {
                 if (user === null) {
                     setErrors(['Sign-in was unsuccessful'])
                 } else {
-                    history.push('/authenticated');
+                    history.push(`/user/${username}`);
                 }
             })
             .catch(err => {

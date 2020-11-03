@@ -31,7 +31,7 @@ const App = () => {
               <Route exact path="/signup" component={UserSignUp}/>
               <Route exact path="/signin" component={UserSignIn}/>
               <Route exact path="/signout" component={UserSignOut}/>
-              <Route exact path="/authenticated" component={Authenticated}/>
+              <Route path="/user/" component={Authenticated}/>
               <Route exact path="/error" component={Error}/>
             </Switch>
           </Container>      

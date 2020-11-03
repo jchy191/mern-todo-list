@@ -17,8 +17,8 @@ const Header = (props) => {
     } else {
         rightHeader = (
             <Nav className="ml-auto">
-                        <Nav.Link>Hello, {context.authUser.name}</Nav.Link>
-                        <Nav.Link as={Link} to='/signout'>Sign Out</Nav.Link>
+                <Navbar.Text className="mr-2">Hello, {context.authUser.name}</Navbar.Text>
+                <Nav.Link as={Link} to='/signout'>Sign Out</Nav.Link>
             </Nav>
         )
     }

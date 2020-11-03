@@ -24,15 +24,21 @@ const UserSignUp = () => {
         setInput({[key]: value});
     }
 
-    const submit = (e) => {
+    const submit = () => {
         
+        const {username, password} = input;
+
         context.data.createUser(input)
         .then(({error}) => {
-            console.log(error)
-            if (error.message){
+            if (error){
                 setErrors(error.message);
             } else {
-                history.push('/')
+                console.log(`${username} is successfully signed up and authenticated!`);
+                const credentials = {username, password};
+                context.actions.signIn(credentials)
+                    .then(() => {
+                        history.push(`/user/${username}`)
+                    });
             }
         })
         .catch(err => {
