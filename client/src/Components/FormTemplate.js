@@ -50,7 +50,6 @@ export default FormTemplate;
 
 const ErrorsDisplay = ({errors}) => {
     let errorsDisplay = null;
-    console.log(errors)
     if (errors.length) {
         errorsDisplay = (
             <div>
