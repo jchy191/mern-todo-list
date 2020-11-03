@@ -42,6 +42,7 @@ router.post('/register', [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const errorMessages = errors.array().map(error => error.msg);
+        console.log(errorMessages)
         return res.status(400).json(
           {
             error:

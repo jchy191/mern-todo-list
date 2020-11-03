@@ -27,9 +27,10 @@ const UserSignUp = () => {
     const submit = (e) => {
         
         context.data.createUser(input)
-        .then((validationErrors) => {
-            if (validationErrors.message){
-                setErrors([validationErrors.message]);
+        .then(({error}) => {
+            console.log(error)
+            if (error.message){
+                setErrors(error.message);
             } else {
                 history.push('/')
             }
