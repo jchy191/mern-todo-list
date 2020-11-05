@@ -4,7 +4,7 @@ import React from 'react';
 import UserSignUp from './Components/UserSignUp';
 import UserSignIn from './Components/UserSignIn';
 import UserSignOut from './Components/UserSignOut';
-import Authenticated from './Components/Authenticated';
+import UserPage from './Components/UserPage';
 import Error from './Components/Error';
 import Home from './Components/Home';
 import Header from './Components/Header'
@@ -31,7 +31,7 @@ const App = () => {
               <Route exact path="/signup" component={UserSignUp}/>
               <Route exact path="/signin" component={UserSignIn}/>
               <Route exact path="/signout" component={UserSignOut}/>
-              <Route path="/user/" component={Authenticated}/>
+              <Route path="/user/" component={UserPage}/>
               <Route exact path="/error" component={Error}/>
             </Switch>
           </Container>      
