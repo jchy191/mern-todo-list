@@ -1,6 +1,6 @@
 import express from 'express';
 import bcryptjs from 'bcryptjs';
-import {User} from './models.js';
+import {User, Todo} from './models.js';
 import authenticateUser from './authenticated.js';
 
 
@@ -19,6 +19,23 @@ router.get('/user/:username', authenticateUser, async (req, res) => {
 })
 
 //POST /:user/:todoID
+router.post('/user/:username', authenticateUser, async (req, res) => {
+  const user = await User.findOne({username: req.params.username}).exec();
+  const todos = await Todo.findOne({userID: user._id});
+  const todoItems = req.body;
+
+  if (!todos) {
+    await Todo.create({
+      userID: user._id,
+      todos: todoItems,
+    })
+  } else {
+    todos.todos = [...todos.todos, ...todoItems];
+    await todos.save();
+  }
+  console.log(`Updated Todos for ${user.username}`)
+  return res.status(201).json(todos);
+})
 
 //PUT /:user/:todoID
 
