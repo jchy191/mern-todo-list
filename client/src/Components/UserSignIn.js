@@ -24,7 +24,7 @@ const UserSignIn = () => {
         setInput({[key]: value});
     }
 
-    const submit = async (e) => {
+    const submit = (e) => {
         const {username, password} = input;
         const credentials = {username, password};
         context.actions.signIn(credentials)

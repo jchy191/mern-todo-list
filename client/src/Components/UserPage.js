@@ -1,5 +1,4 @@
 import React, {useContext, useState, useReducer} from 'react';
-import {Redirect} from 'react-router-dom';
 import {Form, ListGroup, Button, Modal, Container, Col} from 'react-bootstrap';
 import {Context} from '../Context.js';
 import DatePicker from 'react-datepicker';
@@ -28,9 +27,9 @@ const UserPage = (props) => {
 
  
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const addNewTask = () => {
+    const handleModal = () => setShow(!show);
+
+    const handleAdd = () => {
         const newTask = {
             name: input.name,
             dueDate: date,
@@ -41,7 +40,15 @@ const UserPage = (props) => {
             const newTaskList = [...prevState, newTask];
             return newTaskList
         })
-        handleClose();
+        handleModal();
+    }
+
+    const handleDelete = (e) => {
+        const id = e.target.id;
+        const removedTask = tasks.findIndex(task => task.id === id);
+        setTasks(prevState => {
+            return [...prevState.slice(0, removedTask), ...prevState.slice(removedTask+1)] 
+        })
     }
 
     const change = (e) => {
@@ -54,17 +61,17 @@ const UserPage = (props) => {
         <React.Fragment>
             <h1 className="display-1 my-5"> Tasks </h1>
             <p>Hi, {user.name}.</p>
-            <Button variant="info" className="my-5" onClick={handleShow}>Add Task</Button>
+            <Button variant="info" className="my-5" onClick={handleModal}>Add Task</Button>
 
             <Container fluid>
                 <Col md={9} xl={6} as={ListGroup} className="mx-auto">
-                    {tasks.map(task => <Task information={task}/>)}
+                    {tasks.map(task => <Task key={task.id} information={task} delete={handleDelete} />)}
                 </Col>
             </Container>
             
         
 
-            <Modal show={show} onHide={handleClose} className="mt-5">
+            <Modal show={show} onHide={handleModal} className="mt-5">
 
                 <Modal.Header closeButton>
                     <Modal.Title>Add New Task</Modal.Title>
@@ -106,7 +113,7 @@ const UserPage = (props) => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="success" onClick={addNewTask}>
+                    <Button variant="success" onClick={handleAdd}>
                         Add Task
                     </Button>
                 </Modal.Footer>

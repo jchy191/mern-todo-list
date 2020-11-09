@@ -2,17 +2,18 @@ import React from 'react';
 import {ListGroup, Card, Button} from 'react-bootstrap'
 
 
-const Task = ({information}) => {
+const Task = (props) => {
 
     const {name,
         dueDate,
         priority,
-        id} = information
-    
-    const dateString = `${dueDate.getDate()}/${dueDate.getMonth() + 1}/${dueDate.getFullYear()}`
+        id} = props.information
+
+    const dateString = `${dueDate.getDate()}/${dueDate.getMonth() + 1}/${dueDate.getFullYear()}`;
+  
 
     return(
-        <ListGroup.Item key={id} as={Card}>
+        <ListGroup.Item as={Card}>
             <Card.Title>
                 {name}
             </Card.Title>
@@ -22,7 +23,7 @@ const Task = ({information}) => {
             <Card.Text>
                 {priority}
             </Card.Text>
-            <Button variant="danger">Delete</Button>
+            <Button variant="danger" id={id} onClick={props.delete}>Delete</Button>
         </ListGroup.Item>
     )
 }
