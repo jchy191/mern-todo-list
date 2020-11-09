@@ -7,8 +7,9 @@ import UserSignOut from './Components/UserSignOut';
 import UserPage from './Components/UserPage';
 import Error from './Components/Error';
 import Home from './Components/Home';
-import Header from './Components/Header'
-import {Container} from 'react-bootstrap'
+import Header from './Components/Header';
+import PrivateRoute from './PrivateRoute';
+import {Container} from 'react-bootstrap';
 import {
   BrowserRouter,
   Route,
@@ -31,7 +32,7 @@ const App = () => {
               <Route exact path="/signup" component={UserSignUp}/>
               <Route exact path="/signin" component={UserSignIn}/>
               <Route exact path="/signout" component={UserSignOut}/>
-              <Route path="/user/" component={UserPage}/>
+              <PrivateRoute path="/user/" component={UserPage}/>
               <Route exact path="/error" component={Error}/>
             </Switch>
           </Container>      
