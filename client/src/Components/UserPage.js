@@ -1,9 +1,11 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useReducer} from 'react';
 import {Redirect} from 'react-router-dom';
-import {Form, ListGroup, Button, Modal} from 'react-bootstrap';
+import {Form, ListGroup, Button, Modal, Container, Col} from 'react-bootstrap';
 import {Context} from '../Context.js';
 import DatePicker from 'react-datepicker';
+import { v4 as uuidv4 } from 'uuid';
 import "react-datepicker/dist/react-datepicker.css";
+import Task from './Task';
 
 
 
@@ -12,37 +14,57 @@ const UserPage = (props) => {
     const context = useContext(Context);
     const user = context.authUser;
 
-    const [tasks, setTasks] = useState([
-        {
-            name: "Wash clothes",
-            dueDate: "10/20/2020",
-            priority: "high"
-        },
-        {
-            name: "Eat",
-            dueDate: "10/20/2020",
-            priority: "low"
-        },
-    ]);
+    const [tasks, setTasks] = useState([]);
 
     const [show, setShow] = useState(false);
     const [date, setDate] = useState(new Date());
 
+    const [input, setInput] = useReducer(
+        (state, newState) => ({...state, ...newState}),
+        {
+            name:"",
+            priority:"Low"
+        });
+
+ 
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const addNewTask = () => {
+        const newTask = {
+            name: input.name,
+            dueDate: date,
+            priority: input.priority,
+            id: uuidv4()
+        }
+        setTasks(prevState => {
+            const newTaskList = [...prevState, newTask];
+            return newTaskList
+        })
+        handleClose();
+    }
+
+    const change = (e) => {
+        const key = e.target.name;
+        const value = e.target.value;
+        setInput({[key]: value});
+    }
 
     return (
         <React.Fragment>
-            {user && <Redirect to={`/user/${user.username}`}/>}
             <h1 className="display-1 my-5"> Tasks </h1>
             <p>Hi, {user.name}.</p>
-            <ListGroup>
-                {tasks.map(task => <ListGroup.Item>{task.name}</ListGroup.Item>)}
-            </ListGroup>
-            <Button onClick={handleShow}>Add Task</Button>
-            
+            <Button variant="info" className="my-5" onClick={handleShow}>Add Task</Button>
 
-            <Modal show={show} onHide={handleClose}>
+            <Container fluid>
+                <Col md={9} xl={6} as={ListGroup} className="mx-auto">
+                    {tasks.map(task => <Task information={task}/>)}
+                </Col>
+            </Container>
+            
+        
+
+            <Modal show={show} onHide={handleClose} className="mt-5">
 
                 <Modal.Header closeButton>
                     <Modal.Title>Add New Task</Modal.Title>
@@ -52,16 +74,29 @@ const UserPage = (props) => {
                     <Form>
                         <Form.Group>
                             <Form.Label>Task name</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Task"/>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Enter Task"
+                                name="name"
+                                value={input.name}
+                                onChange={change}
+                            />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Due Date</Form.Label> <br/>
-                            <DatePicker selected={date} onChange={date => setDate(date)} />
+                            <DatePicker 
+                                name="dueDate"
+                                selected={date} 
+                                onChange={date => {
+                                    setDate(date);
+                                }}
+                                dateFormat="dd/MM/yyyy"
+                            />
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Priority</Form.Label>
-                            <Form.Control as="select">
+                            <Form.Control as="select" name="priority" value={input.priority} onChange={change}>
                                 <option>Low</option>
                                 <option>Medium</option>
                                 <option>High</option>
@@ -71,7 +106,7 @@ const UserPage = (props) => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="primary" onClick={setTasks}>
+                    <Button variant="success" onClick={addNewTask}>
                         Add Task
                     </Button>
                 </Modal.Footer>
