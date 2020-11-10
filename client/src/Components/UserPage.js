@@ -1,4 +1,5 @@
-import React, {useContext, useState, useReducer} from 'react';
+import React, {useContext, useEffect, useState, useReducer} from 'react';
+import Data from '../Data.js';
 import {Form, ListGroup, Button, Modal, Container, Col} from 'react-bootstrap';
 import {Context} from '../Context.js';
 import DatePicker from 'react-datepicker';
@@ -25,6 +26,10 @@ const UserPage = (props) => {
             priority:"Low"
         });
 
+    useEffect(() => {
+        Data.getTasks(user)
+        .then(response => setTasks(response));
+    }, [user])
  
 
     const handleModal = () => setShow(!show);
@@ -41,6 +46,7 @@ const UserPage = (props) => {
             return newTaskList
         })
         handleModal();
+        Data.persistTasks(tasks);
     }
 
     const handleDelete = (e) => {
@@ -49,6 +55,7 @@ const UserPage = (props) => {
         setTasks(prevState => {
             return [...prevState.slice(0, removedTask), ...prevState.slice(removedTask+1)] 
         })
+        Data.persistTasks(tasks);
     }
 
     const change = (e) => {

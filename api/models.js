@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const ToDoSchema = new Schema({
+const TasksSchema = new Schema({
     userID: String,
-    todos: [
+    tasks: [
         {
             name: String,
             dueDate: String,
@@ -19,4 +19,4 @@ const UserSchema = new Schema({
 })
 
 export const User = mongoose.model("User", UserSchema);
-export const Todo = mongoose.model("Todo", ToDoSchema);
+export const Task = mongoose.model("Task", TasksSchema);

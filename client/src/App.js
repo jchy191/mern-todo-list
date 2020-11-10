@@ -33,7 +33,8 @@ const App = () => {
               <Route exact path="/signin" component={UserSignIn}/>
               <Route exact path="/signout" component={UserSignOut}/>
               <PrivateRoute path="/user/" component={UserPage}/>
-              <Route exact path="/error" component={Error}/>
+              <Route path="/error" component={Error}/>
+              
             </Switch>
           </Container>      
         </div>

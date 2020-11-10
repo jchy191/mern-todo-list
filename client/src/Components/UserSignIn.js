@@ -36,6 +36,7 @@ const UserSignIn = () => {
                 }
             })
             .catch(err => {
+                console.error(err)
                 history.push('/error');
             });
     }
