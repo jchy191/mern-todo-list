@@ -8,8 +8,10 @@ const Home = (props) => {
     const user = context.authUser;
 
     return (
-        
-       <h1 className="display-1 my-5">To-Do App</h1>
+    <React.Fragment>
+        {user && <Redirect to={`/user/${user.username}`}/>}
+        <h1 className="display-1 my-5">To-Do App</h1>
+    </React.Fragment>
     )
 }
 

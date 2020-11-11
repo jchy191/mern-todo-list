@@ -47,7 +47,6 @@ const Data = (() => {
     const getTasks = async (credentials) => {
         const response = await api(`/user/${credentials.username}/tasks`, 'GET', null, false, null);
         if (response.status === 200) {
-            //console.log(response.json());
             return response.json().then(data => data.tasks);
         }
         else if (response.status === 401) {
