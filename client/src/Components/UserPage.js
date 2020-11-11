@@ -28,7 +28,15 @@ const UserPage = (props) => {
 
     useEffect(() => {
         Data.getTasks(user)
-        .then(response => setTasks(response));
+        .then(response => {
+            if (response) {
+                console.log(response.tasks)
+
+                setTasks(() => {
+                    return [...response.tasks]
+                })
+            }
+        });
     }, [user])
  
 
@@ -41,21 +49,20 @@ const UserPage = (props) => {
             priority: input.priority,
             id: uuidv4()
         }
-        setTasks(prevState => {
-            const newTaskList = [...prevState, newTask];
-            return newTaskList
-        })
+        const newTaskList = [...tasks, newTask];
+        Data.persistTasks(newTaskList, user);
+        setTasks(newTaskList);
         handleModal();
-        Data.persistTasks(tasks);
     }
 
     const handleDelete = (e) => {
         const id = e.target.id;
         const removedTask = tasks.findIndex(task => task.id === id);
         setTasks(prevState => {
-            return [...prevState.slice(0, removedTask), ...prevState.slice(removedTask+1)] 
+            const newTaskList = [...prevState.slice(0, removedTask), ...prevState.slice(removedTask+1)];
+            Data.persistTasks(newTaskList, user);
+            return newTaskList 
         })
-        Data.persistTasks(tasks);
     }
 
     const change = (e) => {

@@ -6,8 +6,9 @@ const TasksSchema = new Schema({
     tasks: [
         {
             name: String,
-            dueDate: String,
-            priority: String
+            dueDate: Date,
+            priority: String,
+            id: String,
         } 
     ],
 });

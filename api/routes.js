@@ -21,13 +21,14 @@ router.get('/user/:username', authenticateUser, async (req, res) => {
 //GET /user/:username/tasks
 router.get('/user/:username/tasks', async (req, res) => {
   const user = await User.findOne({username: req.params.username}).exec();
-  const tasks = await Task.findOne({userID: user._id});
+  let tasks = await Task.findOne({userID: user._id});
 
   if (!tasks) {
     await Task.create({
       userID: user._id,
       tasks: [],
     })
+    tasks = await Task.findOne({userID: user._id});
   } 
   console.log(`Obtained Todos for ${user.username}`)
   console.log(tasks);
@@ -39,6 +40,7 @@ router.post('/user/:username/tasks', async (req, res) => {
   const user = await User.findOne({username: req.params.username}).exec();
   const tasks = await Task.findOne({userID: user._id});
   const todoItems = req.body;
+  console.log(todoItems);
 
   if (!tasks) {
     await Task.create({
@@ -46,7 +48,7 @@ router.post('/user/:username/tasks', async (req, res) => {
       tasks: [],
     })
   } 
-  tasks.tasks = [todoItems];
+  tasks.tasks = todoItems;
   await tasks.save();
   
   console.log(`Updated Todos for ${user.username}`)

@@ -47,7 +47,7 @@ const Data = (() => {
     const getTasks = async (credentials) => {
         const response = await api(`/user/${credentials.username}/tasks`, 'GET', null, false, null);
         if (response.status === 200) {
-            return response.json().then(data => data.tasks);
+            return response.json().then(data => data);
         }
         else if (response.status === 401) {
             return null;
@@ -58,8 +58,9 @@ const Data = (() => {
     }
 
     const persistTasks = async (tasks, credentials) => {
-        const response = await api(`/user/${credentials.username}/tasks`, 'POST', tasks, true, credentials);
-        if (response.status === 200) {
+        console.log(tasks)
+        const response = await api(`/user/${credentials.username}/tasks`, 'POST', tasks, false, null);
+        if (response.status === 201) {
             return response.json().then(data => data);
         }
         else if (response.status === 401) {
