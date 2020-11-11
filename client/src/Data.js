@@ -51,14 +51,12 @@ const Data = (() => {
         }
         else if (response.status === 401) {
             return null;
-        } 
-        // else {
-        //     throw new Error();
-        // }
+        } else {
+            throw new Error();
+        }
     }
 
     const persistTasks = async (tasks, credentials) => {
-        console.log(tasks)
         const response = await api(`/user/${credentials.username}/tasks`, 'POST', tasks, false, null);
         if (response.status === 201) {
             return response.json().then(data => data);

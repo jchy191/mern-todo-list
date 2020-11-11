@@ -8,7 +8,6 @@ const Task = (props) => {
         dueDate,
         priority,
         id} = props.information
-    console.log(name, dueDate, priority)
     //const dateString = `${dueDate.getDate()}/${dueDate.getMonth() + 1}/${dueDate.getFullYear()}`;
   
 
@@ -18,7 +17,7 @@ const Task = (props) => {
                 {name}
             </Card.Title>
             <Card.Subtitle>
-                Due on {dueDate}
+                Due on {dueDate.toString()}
             </Card.Subtitle>
             <Card.Text>
                 {priority}

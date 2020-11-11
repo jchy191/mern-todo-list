@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState, useReducer} from 'react';
 import Data from '../Data.js';
 import {Form, ListGroup, Button, Modal, Container, Col} from 'react-bootstrap';
+import {useHistory} from 'react-router-dom';
 import {Context} from '../Context.js';
 import DatePicker from 'react-datepicker';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,6 +13,7 @@ import Task from './Task';
 const UserPage = (props) => {
 
     const context = useContext(Context);
+    const history = useHistory();
     const user = context.authUser;
 
     const [tasks, setTasks] = useState([]);
@@ -30,14 +32,13 @@ const UserPage = (props) => {
         Data.getTasks(user)
         .then(response => {
             if (response) {
-                console.log(response.tasks)
-
                 setTasks(() => {
                     return [...response.tasks]
                 })
             }
-        });
-    }, [user])
+        })
+        .catch(err => history.push('/error'));
+    }, [user, history])
  
 
     const handleModal = () => setShow(!show);
@@ -50,7 +51,8 @@ const UserPage = (props) => {
             id: uuidv4()
         }
         const newTaskList = [...tasks, newTask];
-        Data.persistTasks(newTaskList, user);
+        Data.persistTasks(newTaskList, user)
+            .catch(err => history.push('/error'));
         setTasks(newTaskList);
         handleModal();
     }
@@ -60,7 +62,8 @@ const UserPage = (props) => {
         const removedTask = tasks.findIndex(task => task.id === id);
         setTasks(prevState => {
             const newTaskList = [...prevState.slice(0, removedTask), ...prevState.slice(removedTask+1)];
-            Data.persistTasks(newTaskList, user);
+            Data.persistTasks(newTaskList, user)
+                .catch(err => history.push('/error'));
             return newTaskList 
         })
     }
