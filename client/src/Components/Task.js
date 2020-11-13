@@ -7,20 +7,20 @@ const Task = (props) => {
     const {name,
         dueDate,
         priority,
-        id} = props.information
-    //const dateString = `${dueDate.getDate()}/${dueDate.getMonth() + 1}/${dueDate.getFullYear()}`;
-  
+        id} = props.information  
 
-    return(
+    let date = new Date(dueDate)
+
+        return(
         <ListGroup.Item as={Card}>
             <Card.Title>
                 {name}
             </Card.Title>
             <Card.Subtitle>
-                Due on {dueDate.toString()}
+                Due on {date.toDateString()}
             </Card.Subtitle>
             <Card.Text>
-                {priority}
+                Priority: {priority}
             </Card.Text>
             <Button variant="danger" id={id} onClick={props.delete}>Delete</Button>
         </ListGroup.Item>

@@ -32,6 +32,7 @@ const UserPage = (props) => {
         Data.getTasks(user)
         .then(response => {
             if (response) {
+                console.log(response.tasks)
                 setTasks(() => {
                     return [...response.tasks]
                 })
