@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState, useReducer} from 'react';
 import Data from '../Data.js';
 import {Form, ListGroup, Button, Modal, Container, Col} from 'react-bootstrap';
-import {useHistory} from 'react-router-dom';
+import {Redirect, useHistory} from 'react-router-dom';
 import {Context} from '../Context.js';
 import DatePicker from 'react-datepicker';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,7 +10,7 @@ import Task from './Task';
 
 
 
-const UserPage = (props) => {
+const UserPage = ({match}) => {
 
     const context = useContext(Context);
     const history = useHistory();
@@ -32,7 +32,6 @@ const UserPage = (props) => {
         Data.getTasks(user)
         .then(response => {
             if (response) {
-                console.log(response.tasks)
                 setTasks(() => {
                     return [...response.tasks]
                 })
@@ -73,6 +72,10 @@ const UserPage = (props) => {
         const key = e.target.name;
         const value = e.target.value;
         setInput({[key]: value});
+    }
+
+    if (match.url !== `/user/${user.username}`) {
+        history.push(`/user/${user.username}`)
     }
 
     return (
