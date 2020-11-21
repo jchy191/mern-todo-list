@@ -6,11 +6,14 @@ import UserSignIn from './Components/UserSignIn';
 import UserSignOut from './Components/UserSignOut';
 import UserPage from './Components/UserPage';
 import Error from './Components/Error';
+import NotFound from './Components/NotFound';
 import Home from './Components/Home';
-import Header from './Components/Header'
-import {Container} from 'react-bootstrap'
+import Header from './Components/Header';
+import PrivateRoute from './PrivateRoute';
+import {Container} from 'react-bootstrap';
 import {
   BrowserRouter,
+  Redirect,
   Route,
   Switch
 } from 'react-router-dom';
@@ -31,8 +34,10 @@ const App = () => {
               <Route exact path="/signup" component={UserSignUp}/>
               <Route exact path="/signin" component={UserSignIn}/>
               <Route exact path="/signout" component={UserSignOut}/>
-              <Route path="/user/" component={UserPage}/>
-              <Route exact path="/error" component={Error}/>
+              <PrivateRoute path="/user/:username" component={UserPage}/>
+              <Route path="/error" component={Error}/>
+              <Route path ="/notfound" component={NotFound}/>
+              <Redirect to="/notfound"/>
             </Switch>
           </Container>      
         </div>

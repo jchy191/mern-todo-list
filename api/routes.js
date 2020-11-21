@@ -1,6 +1,6 @@
 import express from 'express';
 import bcryptjs from 'bcryptjs';
-import {User} from './models.js';
+import {User, Task} from './models.js';
 import authenticateUser from './authenticated.js';
 
 
@@ -9,7 +9,7 @@ const {check, validationResult} = expressValidator;
 
 const router = express.Router();
 
-//GET /:user
+//GET /user/:username
 router.get('/user/:username', authenticateUser, async (req, res) => {
     const user = await User.findOne({"username" : req.params.username});
     return res.status(200).json({
@@ -18,11 +18,44 @@ router.get('/user/:username', authenticateUser, async (req, res) => {
     });
 })
 
-//POST /:user/:todoID
+//GET /user/:username/tasks
+router.get('/user/:username/tasks', async (req, res) => {
+  const user = await User.findOne({username: req.params.username}).exec();
+  let tasks = await Task.findOne({userID: user._id});
 
-//PUT /:user/:todoID
+  if (!tasks) {
+    await Task.create({
+      userID: user._id,
+      tasks: [],
+    })
+    tasks = await Task.findOne({userID: user._id});
+  } 
+  console.log(`Obtained Todos for ${user.username}`)
+  console.log(tasks);
+  return res.status(200).json(tasks);
+})
 
-//DELETE /:user/:todoID
+//POST /user/:username/tasks
+router.post('/user/:username/tasks', async (req, res) => {
+  const user = await User.findOne({username: req.params.username}).exec();
+  const tasks = await Task.findOne({userID: user._id});
+  const todoItems = req.body;
+  console.log(todoItems);
+
+  if (!tasks) {
+    await Task.create({
+      userID: user._id,
+      tasks: [],
+    })
+  } 
+  tasks.tasks = todoItems;
+  await tasks.save();
+  
+  console.log(`Updated Todos for ${user.username}`)
+  return res.status(201).json(tasks);
+})
+
+
 
 
 //POST /register

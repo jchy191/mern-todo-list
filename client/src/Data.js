@@ -44,7 +44,31 @@ const Data = (() => {
         }
     }
 
-    return {createUser, getUser}
+    const getTasks = async (credentials) => {
+        const response = await api(`/user/${credentials.username}/tasks`, 'GET', null, false, null);
+        if (response.status === 200) {
+            return response.json().then(data => data);
+        }
+        else if (response.status === 401) {
+            return null;
+        } else {
+            throw new Error();
+        }
+    }
+
+    const persistTasks = async (tasks, credentials) => {
+        const response = await api(`/user/${credentials.username}/tasks`, 'POST', tasks, false, null);
+        if (response.status === 201) {
+            return response.json().then(data => data);
+        }
+        else if (response.status === 401) {
+            return null;
+        } else {
+            throw new Error();
+        }
+    }
+
+    return {createUser, getUser, getTasks, persistTasks}
 
 
 })();
